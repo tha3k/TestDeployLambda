@@ -1,22 +1,21 @@
 version: 0.2
 
 phases:
+  install:
+    commands:
+      - echo Install package of lambda function..
+      - npm install
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
-      - $(aws ecr get-login --no-include-email --region $AWS_REGION)
+      - echo Create new lambda function archive file...
+      - zip lambda.zip *  -r -x .git/\* \*.sh \*.yml tests/\* node_modules/aws-sdk/\* \*.zip
   build:
     commands:
-      - echo Build started on `date`
-      - echo Building the Docker image for $IMAGE_REPO_NAME...
-      - docker build -f DockerFile.$IMAGE_REPO_NAME -t $IMAGE_REPO_NAME:$IMAGE_TAG .
-      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/allmap/$IMAGE_REPO_NAME:$IMAGE_TAG      
+      - echo Deploy lambda started on `date` 
+      - aws lambda create-function --region ap-southeast-1 --function-name test_create_fn1 --zip-file fileb://lambda.zip --role arn:aws:iam::229056414901:role/service-role/AllMapLambdaRole --handler index.handler --runtime nodejs6.10 --memory-size 128 --timeout 10
   post_build:
     commands:
       - echo Build completed on `date`
-      - echo Pushing the Docker image for $IMAGE_REPO_NAME...
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/allmap/$IMAGE_REPO_NAME:$IMAGE_TAG
-      - printf '[{"name":"Allmap-AllmapApiNode-Dev","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/allmap/$IMAGE_REPO_NAME:$IMAGE_TAG > imagedefinitions.json
 artifacts:
   files:
     - imagedefinitions.json
