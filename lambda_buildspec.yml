@@ -1,15 +1,17 @@
 version: 0.2
 
 phases:
+  install:
+    commands:
+      - echo Prepare install package of lambda function
+      - [ -f package.json ] && npm install || echo "Do Nothing"
   pre_build:
     commands:
       - echo Create new lambda function archive file...
-      - stat index.js
       - zip lambda.zip *  -r -x .git/\* \*.sh \*.yml tests/\* node_modules/aws-sdk/\* \*.zip
   build:
     commands:
-      - echo Deploy lambda started on `date`
-      - echo Building the Docker image for $IMAGE_REPO_NAME...
+      - echo Deploy lambda started on `date` 
       - aws lambda create-function --region ap-southeast-1 --function-name test_create_fn1 --zip-file fileb://lambda.zip --role arn:aws:iam::229056414901:role/service-role/AllMapLambdaRole --handler index.handler --runtime nodejs6.10 --memory-size 128 --timeout 10
   post_build:
     commands:
