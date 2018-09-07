@@ -5,7 +5,7 @@ phases:
     commands:
       - echo Install package of lambda function..
       - npm install
-      - ./lambda_deploy.sh
+      - sudo ./lambda_deploy.sh
   pre_build:
     commands:
       - echo Create new lambda function archive file...
