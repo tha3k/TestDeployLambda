@@ -4,6 +4,7 @@ phases:
   install:
     commands:
       - echo Install package of lambda function..
+      - "[ -f package.json ]" && npm install || echo "Do Nothing"
   pre_build:
     commands:
       - echo Create new lambda function archive file...
