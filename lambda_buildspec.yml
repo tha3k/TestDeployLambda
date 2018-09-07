@@ -7,7 +7,7 @@ phases:
   pre_build:
     commands:
       - echo Create new lambda function archive file...
-      - zip lambda.zip *  -r -x .git/\* \*.sh tests/\* node_modules/aws-sdk/\* \*.zip
+      - zip lambda.zip *  -r -x .git/\* \*.sh \*.yml tests/\* node_modules/aws-sdk/\* \*.zip
   build:
     commands:
       - echo Build started on `date`
