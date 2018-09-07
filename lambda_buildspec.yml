@@ -5,6 +5,7 @@ phases:
     commands:
       - echo Install package of lambda function..
       - npm install
+      - ls -d */
   pre_build:
     commands:
       - echo Create new lambda function archive file...
