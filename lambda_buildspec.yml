@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo Prepare install package of lambda function
+      - echo Install package of lambda function..
       - [ -f package.json ] && npm install || echo "Do Nothing"
   pre_build:
     commands:
