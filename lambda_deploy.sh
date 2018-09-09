@@ -11,13 +11,13 @@ do
 	if [ -e package.json ]
 	then
 		echo "- Found package.json => install.."
-		#npm install	
+		npm install	
 	else
 		echo "- Not found package.json => Do nothing"
 	fi
 	
 	echo "- make zip file.. "
-	#zip lambda.zip *  -r -x .git/\* \*.sh \*.yml tests/\* node_modules/aws-sdk/\* \*.zip
+	zip lambda.zip *  -r -x .git/\* \*.sh \*.yml tests/\* node_modules/aws-sdk/\* \*.zip
 
 	echo "- deploy lambda function .. "
 	aws lambda get-function --region $REGION --function-name $lambda_name 
