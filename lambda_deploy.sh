@@ -1,9 +1,9 @@
 #!/bin/bash
 
-REGION=ap-southeast-1
-ROLE=arn:aws:iam::229056414901:role/service-role/AllMapLambdaRole
+REGION="ap-southeast-1"
+ROLE="arn:aws:iam::229056414901:role/service-role/AllMapLambdaRole"
 
-for lambda_name in `find . -maxdepth 1 -mindepth 1 -type d -printf '%f\n'`
+for lambda_name in `find . -maxdepth 1 -mindepth 1 -type d -printf '%f\n' | egrep -v '.git'`
 do
     echo "+ make package for lambda function" [$lambda_name]
 	cd $lambda_name
